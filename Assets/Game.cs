@@ -81,7 +81,7 @@ public class Game : MonoBehaviour {
     }
 
     private void OnDisable() {
-        SaveProgress();
+        // SaveProgress();
     }
 
 }

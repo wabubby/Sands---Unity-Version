@@ -666,7 +666,7 @@ public class SandSim : MonoBehaviour {
     public ElementSpout userBrush;
     private DateTime startTime;
     public Vector2 brushCoordinates;
-    private int secondsSinceStart => (int) (DateTime.Now - startTime).TotalSeconds;
+    private int secondsSinceStart => (int) (DateTime.Now - startTime).TotalSeconds * 60;
     private int numSpoots;
 
     private void Awake() {
