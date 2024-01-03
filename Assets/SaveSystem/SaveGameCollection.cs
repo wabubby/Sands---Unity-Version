@@ -6,24 +6,10 @@ using System.Text;
 using System;
 
 namespace Wabubby {
-    public enum SaveMethod {
-        Single,
-        Backup,
-        Slots
-    }
-
     public class SaveGameCollection : MonoBehaviour {
 
-        public AbstractSaveGame CreateSaveGame(string path, SaveMethod saveMethod) {
-            switch(saveMethod) {
-                case SaveMethod.Single:
-                    return new SingleSaveGame(path);
-                default:
-                    return new SingleSaveGame(path);
-            }
-        }
-
         public SaveMethod SaveMethod = SaveMethod.Single;
+        public bool DoEncrypt = false;
 
         private List<AbstractSaveGame> saveGames;
         public List<AbstractSaveGame> SaveGames { get {  if (saveGames == null) { LoadSaveGames();} return saveGames;} }
@@ -37,18 +23,15 @@ namespace Wabubby {
 
             saveGames = new List<AbstractSaveGame>();
 
+            // look for savegame directories
             string[] saveDirPaths = Directory.GetDirectories(EncodingConstants.SavePath);
-            string[] saveFilePaths = Directory.GetFiles(EncodingConstants.SavePath);
             System.Array.Sort(saveDirPaths);
+            foreach (string savePath in saveDirPaths) { saveGames.Add(SaveGameLibrary.CreateSaveGame(savePath, SaveMethod, DoEncrypt)); }
+            
+            // look for savegame paths
+            string[] saveFilePaths = Directory.GetFiles(EncodingConstants.SavePath);
             System.Array.Sort(saveFilePaths);
-
-            foreach (string savePath in saveDirPaths) {
-                saveGames.Add(CreateSaveGame(savePath, SaveMethod));
-            }
-
-            foreach (string savePath in saveFilePaths) {
-                saveGames.Add(CreateSaveGame(savePath, SaveMethod));
-            }
+            foreach (string savePath in saveFilePaths) { saveGames.Add(SaveGameLibrary.CreateSaveGame(savePath, SaveMethod, DoEncrypt)); }
         }
 
         private void ResolveEncodingDirectories() {
@@ -79,7 +62,7 @@ namespace Wabubby {
         /// </summary>
         [ContextMenu("Add SaveGame")]
         public void AddSaveGame() {
-            SaveGames.Add(CreateSaveGame($"{EncodingConstants.SavePath}/new-save-{saveGames.Count}", SaveMethod));
+            SaveGames.Add(SaveGameLibrary.CreateSaveGame($"{EncodingConstants.SavePath}/new-save-{saveGames.Count}", SaveMethod, DoEncrypt));
         }
 
         private void Awake() {

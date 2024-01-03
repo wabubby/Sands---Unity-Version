@@ -17,21 +17,19 @@ namespace Wabubby {
         }
 
         // loads from filepath
-        public SaveData Load() {
+        public virtual SaveData Load() {
             if (File.Exists(SaveGame.Path) || Directory.Exists(SaveGame.Path)) {
-                return JsonEncoder.Load(SaveGame.Path).SaveData;
+                return JsonEncoder.Load(SaveGame.Path, SaveGame.doEncrypt).SaveData;
             } else {
                 return DefaultSaveData;
             }
         }
 
-        // saves to filepath
-        public void Save() {
-            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path);
+        public virtual void Save() {
+            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path, SaveGame.doEncrypt);
         }
 
-        // deletes savegame path
-        public void Delete() {
+        public virtual void Delete() {
             Directory.Move(SaveGame.Path, $"{EncodingConstants.TrashPath}/{System.IO.Path.GetFileName(SaveGame.Path)}");
         }
 

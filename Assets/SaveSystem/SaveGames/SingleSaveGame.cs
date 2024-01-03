@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Wabubby {
     public class SingleSaveGame : AbstractSaveGame
     {
-        public SingleSaveGame(string path) : base(path) {
+        public SingleSaveGame(string path, bool doEncrypt=false) : base(path, doEncrypt) {
             Encoder = new SingleSaveEncoder(this);
             Load();
         }

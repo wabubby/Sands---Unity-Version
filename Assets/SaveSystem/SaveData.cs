@@ -11,20 +11,16 @@ namespace Wabubby {
         }
 
         public string UserName;
-        public int LevelIndex;
-        public int Coins;
 
+        // player preferences:
+        public string DateTime;
+        
     }
 
     [System.Serializable] // allows this class to be converted to json
     public class SaveDataContainer {
-
         public SaveData SaveData;
-        
-        public SaveDataContainer(SaveData saveData) {
-            SaveData = saveData;
-        }
-
+        public SaveDataContainer(SaveData saveData) {SaveData = saveData;}
     }
 }
 
