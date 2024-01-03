@@ -11567,7 +11567,7 @@ GameObject:
   - component: {fileID: 982507172}
   - component: {fileID: 982507173}
   m_Layer: 0
-  m_Name: SaveSystem
+  m_Name: SaveGameCollection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11601,6 +11601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveMethod: 0
+  DoEncrypt: 1
 --- !u!1 &1031593461
 GameObject:
   m_ObjectHideFlags: 0

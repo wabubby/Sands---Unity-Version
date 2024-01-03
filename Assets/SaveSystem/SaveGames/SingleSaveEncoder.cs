@@ -11,14 +11,14 @@ namespace Wabubby {
 
         public override SaveData Load() {
             if (File.Exists(SaveGame.Path) || Directory.Exists(SaveGame.Path)) {
-                return JsonEncoder.Load(SaveGame.Path, SaveGame.doEncrypt).SaveData;
+                return JsonEncoder.Load(SaveGame.Path, SaveGame.DoEncrypt).SaveData;
             } else {
-                return DefaultSaveData;
+                return new SaveData();
             }
         }
 
         public override void Save() {
-            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path, SaveGame.doEncrypt);
+            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path, SaveGame.DoEncrypt);
         }
 
         public override void Delete() {

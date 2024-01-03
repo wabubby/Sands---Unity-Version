@@ -5,6 +5,11 @@ using UnityEngine;
 namespace Wabubby {
     [System.Serializable]
     public class SaveData {
+        
+        public SaveData() {
+            UserName = "new-save";
+        }
+
 
         public SaveData(string name) {
             UserName = name;
@@ -15,6 +20,12 @@ namespace Wabubby {
         // player preferences:
         public string DateTime;
         
+
+        public override string ToString() {
+            string deepCopy = JsonUtility.ToJson(this);
+            return deepCopy;
+        }
+
     }
 
     [System.Serializable] // allows this class to be converted to json

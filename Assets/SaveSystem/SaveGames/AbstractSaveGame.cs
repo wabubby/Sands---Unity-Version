@@ -6,13 +6,14 @@ namespace Wabubby {
     public abstract class AbstractSaveGame {
         public string Path;
         public SaveData SaveData;
-        public bool doEncrypt;
+        public bool DoEncrypt;
         public bool isCorrupted => SaveData==null;
 
         protected AbstractSaveEncoder Encoder;
 
-        public AbstractSaveGame(string path, bool doEncrypt=false) {
+        public AbstractSaveGame(string path, bool doEncrypt) {
             Path = path;
+            DoEncrypt = doEncrypt;
             // Encoder = new ConcreteSaveEncoder(this);
             // Load();
         }

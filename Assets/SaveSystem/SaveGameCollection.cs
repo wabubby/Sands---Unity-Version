@@ -53,7 +53,8 @@ namespace Wabubby {
         public void SaveSaveGames() {
             foreach (AbstractSaveGame saveGame in saveGames) {
                 saveGame.Save();
-                Debug.Log($"test savegame path(after save): {saveGame.Path}");
+                Debug.Log($"savegame path: {saveGame.Path}");
+                Debug.Log($"savegame doEncrypt flag: {saveGame.DoEncrypt}");
             }
         }
 
@@ -63,7 +64,19 @@ namespace Wabubby {
         [ContextMenu("Add SaveGame")]
         public void AddSaveGame() {
             SaveGames.Add(SaveGameLibrary.CreateSaveGame($"{EncodingConstants.SavePath}/new-save-{saveGames.Count}", SaveMethod, DoEncrypt));
+            SaveGames[SaveGames.Count-1].SaveData.UserName = $"new-save-{saveGames.Count-1}";
         }
+
+        /// <summary>
+        /// Prrint all savedata contents for debugging
+        /// </summary>
+        [ContextMenu("Log SaveDatas")]
+        public void LogSaveDatas() {
+            foreach (AbstractSaveGame saveGame in saveGames) {
+                Debug.Log(saveGame.SaveData.ToString());
+            }
+        }
+
 
         private void Awake() {
             LoadSaveGames();

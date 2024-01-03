@@ -666,7 +666,7 @@ public class SandSim : MonoBehaviour {
     public ElementSpout userBrush;
     private DateTime startTime;
     public Vector2 brushCoordinates;
-    private int secondsSinceStart => (int) (DateTime.Now - startTime).TotalSeconds * 1000;
+    private double secondsSinceStart => (DateTime.Now - startTime).TotalSeconds;
     private int numSpoots;
 
     private void Awake() {
@@ -692,7 +692,7 @@ public class SandSim : MonoBehaviour {
         startTime = DateTime.Now;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if (game.CurrentSand.SandType == Game.SandType.Work) {
             userBrush.SourceElement = ElementType.BlueSand;
         } else if (game.CurrentSand.SandType == Game.SandType.Necessity) {
@@ -707,10 +707,13 @@ public class SandSim : MonoBehaviour {
         if (celluarMatrix.isWithinBounds((int) brushCoordinates.x, (int) brushCoordinates.y)) {
             userBrush.SetMatrixPosition((int) brushCoordinates.x, (int) brushCoordinates.y, celluarMatrix);
         } else {
-            userBrush.SetMatrixPosition(120, 360, celluarMatrix);
+            float duration = 60f*60f; // 60 seconds to complete one revolution
+            int spread = 20;
+            int matrixX = (int) ((120f-spread) * Math.Sin(secondsSinceStart*2f*Math.PI/duration) + 120f);
+            Debug.Log((120f * Math.Sin(Time.time*2f*Math.PI) + 120f));
+            userBrush.SetMatrixPosition(matrixX+Random.Range(-spread, spread), 360, celluarMatrix);
         }
         
-        Debug.Log($"{secondsSinceStart}, {numSpoots}");
         if (numSpoots < secondsSinceStart) {
             userBrush.Spoot(celluarMatrix);
             numSpoots += 1;
