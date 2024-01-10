@@ -4,25 +4,24 @@ using UnityEngine;
 using System.IO;
 
 namespace Wabubby {
-    public class SingleSaveEncoder : AbstractSaveEncoder
-    {
+    public class SingleSaveEncoder : AbstractSaveEncoder {
+        private string mainPath => $"{SaveGame.Path}/{Path.GetDirectoryName(SaveGame.Path)}.json";
+
         public SingleSaveEncoder(AbstractSaveGame saveGame) : base(saveGame) {
+            
         }
 
         public override SaveData Load() {
-            if (File.Exists(SaveGame.Path) || Directory.Exists(SaveGame.Path)) {
-                return JsonEncoder.Load(SaveGame.Path, SaveGame.DoEncrypt).SaveData;
+            if (File.Exists(mainPath)) {
+                return JsonEncoder.Load(mainPath, SaveGame.DoEncrypt).SaveData;
             } else {
                 return new SaveData();
             }
         }
 
         public override void Save() {
-            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path, SaveGame.DoEncrypt);
-        }
-
-        public override void Delete() {
-            Directory.Move(SaveGame.Path, $"{EncodingConstants.TrashPath}/{System.IO.Path.GetFileName(SaveGame.Path)}");
+            Debug.Log($"dir name of {SaveGame.Path} is {Path.GetDirectoryName(SaveGame.Path)}");
+            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), mainPath, SaveGame.DoEncrypt);
         }
 
     }

@@ -15,17 +15,9 @@ namespace Wabubby {
         }
 
         // loads from filepath
-        public virtual SaveData Load() {
-            if (File.Exists(SaveGame.Path) || Directory.Exists(SaveGame.Path)) {
-                return JsonEncoder.Load(SaveGame.Path, SaveGame.DoEncrypt).SaveData;
-            } else {
-                return new SaveData();
-            }
-        }
+        public abstract SaveData Load();
 
-        public virtual void Save() {
-            JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), SaveGame.Path, SaveGame.DoEncrypt);
-        }
+        public abstract void Save();
 
         public virtual void Delete() {
             Directory.Move(SaveGame.Path, $"{EncodingConstants.TrashPath}/{System.IO.Path.GetFileName(SaveGame.Path)}");

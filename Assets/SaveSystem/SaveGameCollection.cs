@@ -27,11 +27,6 @@ namespace Wabubby {
             string[] saveDirPaths = Directory.GetDirectories(EncodingConstants.SavePath);
             System.Array.Sort(saveDirPaths);
             foreach (string savePath in saveDirPaths) { saveGames.Add(SaveGameLibrary.CreateSaveGame(savePath, SaveMethod, DoEncrypt)); }
-            
-            // look for savegame paths
-            string[] saveFilePaths = Directory.GetFiles(EncodingConstants.SavePath);
-            System.Array.Sort(saveFilePaths);
-            foreach (string savePath in saveFilePaths) { saveGames.Add(SaveGameLibrary.CreateSaveGame(savePath, SaveMethod, DoEncrypt)); }
         }
 
         private void ResolveEncodingDirectories() {

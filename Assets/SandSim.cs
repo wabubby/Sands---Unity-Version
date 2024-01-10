@@ -707,10 +707,10 @@ public class SandSim : MonoBehaviour {
         if (celluarMatrix.isWithinBounds((int) brushCoordinates.x, (int) brushCoordinates.y)) {
             userBrush.SetMatrixPosition((int) brushCoordinates.x, (int) brushCoordinates.y, celluarMatrix);
         } else {
-            float duration = 60f*60f; // 60 seconds to complete one revolution
+            float duration = 60f*60f; // 1 hour to complete one revolution
             int spread = 20;
             int matrixX = (int) ((120f-spread) * Math.Sin(secondsSinceStart*2f*Math.PI/duration) + 120f);
-            Debug.Log((120f * Math.Sin(Time.time*2f*Math.PI) + 120f));
+            // Debug.Log((120f * Math.Sin(Time.time*2f*Math.PI) + 120f));
             userBrush.SetMatrixPosition(matrixX+Random.Range(-spread, spread), 360, celluarMatrix);
         }
         

@@ -7,11 +7,11 @@ using System.IO;
 
 namespace Wabubby {
     public class BackupSaveEncoder : AbstractSaveEncoder {
-        private static string currentSaveIdentifier = "current-save";
-        private static string backupSaveIdentifier = "backup-save";
+        private static string currentSaveIdentifier = "-current-save";
+        private static string backupSaveIdentifier = "-backup-save";
 
-        private string currentSavePath => $"SaveGame.Path/{currentSaveIdentifier}";
-        private string backupSavePath => $"SaveGame.Path/{backupSaveIdentifier}";
+        private string currentSavePath => $"{SaveGame.Path}/{Path.GetFileName(SaveGame.Path)}{currentSaveIdentifier}.json";
+        private string backupSavePath => $"{SaveGame.Path}/{Path.GetFileName(SaveGame.Path)}{backupSaveIdentifier}.json";
 
         public BackupSaveEncoder(AbstractSaveGame saveGame) : base(saveGame) {  }
 
@@ -32,12 +32,21 @@ namespace Wabubby {
 
         public override void Save() {
             WabubbyIO.ResolveDirectory(SaveGame.Path);
+            // move backup to trash
+            if (File.Exists(backupSavePath)) {
+                DeleteBackup();
+            }
             // move current to backup
             if (File.Exists(currentSavePath)) {
                 File.Move(currentSavePath, backupSavePath);
             }
             // save SaveData to current
+            Debug.Log($"Saving Backup savegame to {currentSavePath}");
             JsonEncoder.Save(new SaveDataContainer(SaveGame.SaveData), currentSavePath, SaveGame.DoEncrypt);
+        }
+
+        private void DeleteBackup() {
+            File.Move(backupSavePath, $"{EncodingConstants.TrashPath}/{Path.GetFileName(backupSavePath)}");
         }
     }
 }
